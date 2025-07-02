@@ -1,6 +1,7 @@
 __pycache__
 
 *.txt
+!requirements.txt
 
 *.pt
 
