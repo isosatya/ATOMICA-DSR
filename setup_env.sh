@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ENVNAME=atomicaenv
+ENVNAME=atomicadsr
 conda create -n $ENVNAME python=3.9 -y
 source activate $ENVNAME
 conda install numpy==1.26.4 -y

@@ -21,7 +21,16 @@ cd ATOMICA
 ```
 
 ### 2. Set Up Environment
+
+**Option A: Local Setup**
 Set up the environment according to `setup_env.sh`.
+
+**Option B: RunPod Cloud Deployment**
+For cloud deployment on RunPod, see [project-training/runpod/RUNPOD_README.md](project-training/runpod/RUNPOD_README.md) for detailed instructions. This includes:
+- Docker container with all dependencies pre-installed
+- CUDA support for GPU acceleration
+- Jupyter notebook access
+- Automated environment setup
 
 ### 3. (optional) Download Processed Datasets
 The data for pretraining and downstream analyses is hosted at [Harvard Dataverse](https://doi.org/10.7910/DVN/4DUBJX).
