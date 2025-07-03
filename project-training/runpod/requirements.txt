@@ -36,4 +36,7 @@ wandb==0.18.2
 
 # Additional dependencies found in codebase
 gzip
-pickle-mixin 
+pickle-mixin
+
+# Extra dependencies installed for RunPod deployment
+huggingface_hub 
