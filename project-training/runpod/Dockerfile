@@ -27,6 +27,11 @@ RUN apt-get update && apt-get install -y \
     liblapack-dev \
     libblas-dev \
     libgfortran5 \
+    libxrender1 \
+    libxext6 \
+    libx11-6 \
+    libgl1-mesa-glx \
+    screen \
     && rm -rf /var/lib/apt/lists/*
 
 # Create symbolic links for python
@@ -43,8 +48,14 @@ WORKDIR /workspace
 COPY project-training/runpod/requirements.txt .
 RUN pip install -r requirements.txt
 
+# Install PyTorch with CUDA support
+RUN pip install torch==2.1.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
 # Install PyTorch Geometric dependencies
 RUN pip install torch-scatter torch-cluster -f https://data.pyg.org/whl/torch-2.1.1+cu118.html
+
+# Install additional dependencies
+RUN pip install huggingface_hub
 
 # Copy the entire project
 COPY . .
@@ -56,6 +67,9 @@ RUN mkdir -p /workspace/project-training/outputs
 RUN mkdir -p /workspace/project-training/logs
 RUN mkdir -p /workspace/project-training/data
 RUN mkdir -p /workspace/project-training/original-model-config
+
+# Set environment variables
+ENV PYTHONPATH="${PYTHONPATH}:/workspace"
 
 # Set default command
 CMD ["/bin/bash"] 

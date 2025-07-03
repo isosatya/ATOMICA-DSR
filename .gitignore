@@ -9,9 +9,7 @@ __pycache__
 
 *.pkl
 # Keep your specific training data files
-!project-training/data/train_items.pkl
-!project-training/data/val_items.pkl
-!project-training/data/test_items.pkl
+!project-training/data/*.pkl
 
 *.svg
 
