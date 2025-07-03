@@ -2,31 +2,60 @@
 
 This guide provides two approaches for deploying ATOMICA on RunPod: **Docker (Recommended)** and **Manual Setup**.
 
+## 🔐 GitHub Authentication Required
+
+**Important**: This repository requires authentication for cloning. You cannot clone directly without authentication.
+
+### Authentication Options:
+
+#### Option A: Personal Access Token (Recommended)
+1. Go to GitHub.com → Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. Generate new token with 'repo' scope (for private repos) or minimal scope (for public repos)
+3. Use the token in clone commands: `git clone https://YOUR_TOKEN@github.com/your-username/ATOMICA-DSR.git`
+
+#### Option B: SSH Keys
+1. Ensure your SSH key is added to GitHub
+2. Copy your private key to RunPod: `cat ~/.ssh/id_rsa | ssh your-runpod-connection "mkdir -p ~/.ssh && cat > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa"`
+3. Use SSH clone: `git clone git@github.com:your-username/ATOMICA-DSR.git`
+
+#### Option C: Download as ZIP
+1. Download from GitHub web interface: https://github.com/your-username/ATOMICA-DSR/archive/refs/heads/main.zip
+2. Upload to RunPod or download directly: `wget https://github.com/your-username/ATOMICA-DSR/archive/refs/heads/main.zip`
+
+---
+
 ## 🐳 Docker Approach (Recommended)
 
 ### Prerequisites
 - Docker installed on your local machine
 - RunPod account with GPU access
+- GitHub Personal Access Token (for cloning private repositories)
 
-### Step 1: Build the Docker Image
+### Step 1: Build the Docker Image Locally
+
+**Note**: Docker is not available on RunPod containers, so you must build locally.
+
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/ATOMICA-DSR.git
+# Clone the repository (requires authentication for private repos)
+git clone https://YOUR_TOKEN@github.com/your-username/ATOMICA-DSR.git
 cd ATOMICA-DSR
 
 # Build the Docker image
 docker build -t atomica-runpod -f project-training/runpod/Dockerfile .
 
-# Push to Docker Hub (optional, for sharing)
-docker tag atomica-runpod your-username/atomica-runpod
-docker push your-username/atomica-runpod
+# Tag for Docker Hub
+docker tag atomica-runpod your-username/atomica-runpod:latest
+
+# Push to Docker Hub
+docker push your-username/atomica-runpod:latest
 ```
 
 ### Step 2: Deploy on RunPod
-1. Create a new pod on RunPod
-2. Select your custom Docker image: `your-username/atomica-runpod`
-3. Choose GPU: RTX 4090, RTX 3090, or A100
-4. Set port: 8888 (for Jupyter)
+1. **Create a new pod** on RunPod with:
+   - **GPU**: RTX 4090, RTX 3090, or A100 (recommended)
+   - **Container**: Select "Custom Image"
+   - **Custom Image**: `your-username/atomica-runpod:latest`
+   - **Port**: 8888 (for Jupyter notebook access)
 
 ### Step 3: Download Model Weights
 ```bash
@@ -79,9 +108,35 @@ python train.py \
 1. Create a new pod with any base image (Ubuntu recommended)
 2. Choose GPU: RTX 4090, RTX 3090, or A100
 
-### Step 2: Clone Repository
+### Step 2: Clone Repository (Authentication Required)
+
+**GitHub Authentication Options:**
+
+#### Option A: Personal Access Token (Recommended)
 ```bash
-git clone https://github.com/your-username/ATOMICA-DSR.git
+# Create a GitHub Personal Access Token:
+# 1. Go to GitHub.com → Settings → Developer settings → Personal access tokens → Tokens (classic)
+# 2. Generate new token with 'repo' scope
+# 3. Use the token in the clone command:
+
+git clone https://YOUR_TOKEN@github.com/your-username/ATOMICA-DSR.git
+```
+
+#### Option B: SSH Keys
+```bash
+# Copy your SSH key to RunPod (from local machine):
+cat ~/.ssh/id_rsa | ssh your-runpod-connection "mkdir -p ~/.ssh && cat > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa"
+
+# Then clone using SSH:
+git clone git@github.com:your-username/ATOMICA-DSR.git
+```
+
+#### Option C: Download as ZIP
+```bash
+# Download repository as ZIP file:
+wget https://github.com/your-username/ATOMICA-DSR/archive/refs/heads/main.zip
+unzip main.zip
+mv ATOMICA-DSR-main ATOMICA-DSR
 cd ATOMICA-DSR
 ```
 
@@ -167,24 +222,28 @@ tensorboard --logdir project-training/model_checkpoints/pdbind_training
 ```bash
 # Build and deploy
 docker build -t atomica-runpod -f project-training/runpod/Dockerfile .
-docker push your-username/atomica-runpod
+docker push your-username/atomica-runpod:latest
 
 # On RunPod
-git clone https://github.com/your-username/ATOMICA-DSR.git
-cd ATOMICA-DSR
+# Use custom image: your-username/atomica-runpod:latest
 # Download weights and run training
 ```
 
 ### For Manual approach:
 ```bash
 # On RunPod
-git clone https://github.com/your-username/ATOMICA-DSR.git
+git clone https://YOUR_TOKEN@github.com/your-username/ATOMICA-DSR.git
 cd ATOMICA-DSR
 ./project-training/runpod/setup_runpod.sh
 # Download weights and run training
 ```
 
 ## 🐛 Troubleshooting
+
+### GitHub Authentication Issues
+- **"Repository not found"**: Check repository URL and token permissions
+- **"Authentication failed"**: Verify Personal Access Token is correct
+- **"Permission denied"**: Ensure token has 'repo' scope for private repositories
 
 ### CUDA Issues
 - Ensure GPU is detected: `nvidia-smi`
@@ -200,4 +259,10 @@ cd ATOMICA-DSR
 
 ### Training Issues
 - Use pre-trained architecture for fine-tuning
-- Remove pre-trained weights for custom architecture 
+- Remove pre-trained weights for custom architecture
+
+## 🔒 Security Notes
+
+- **Personal Access Tokens**: Store securely and never commit to version control
+- **SSH Keys**: Use passphrase-protected keys when possible
+- **Docker Images**: Consider using private Docker registries for sensitive projects 

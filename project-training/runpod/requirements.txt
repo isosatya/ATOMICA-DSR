@@ -1,7 +1,7 @@
 # Core ML dependencies
-torch==2.1.1+cu118
-torch-scatter
-torch-cluster
+# torch==2.1.1+cu118  # Removed, install separately in Dockerfile
+# torch-scatter       # Removed, install separately in Dockerfile
+# torch-cluster       # Removed, install separately in Dockerfile
 tensorboard==2.18.0
 
 # Geometric ML
@@ -33,10 +33,6 @@ umap-learn
 
 # Logging and experiment tracking
 wandb==0.18.2
-
-# Additional dependencies found in codebase
-gzip
-pickle-mixin
 
 # Extra dependencies installed for RunPod deployment
 huggingface_hub 

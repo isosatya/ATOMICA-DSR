@@ -1,5 +1,5 @@
-# Use NVIDIA CUDA base image
-FROM nvidia/cuda:11.8-devel-ubuntu20.04
+# Use Ubuntu base image and install CUDA manually
+FROM ubuntu:22.04
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
@@ -10,8 +10,8 @@ ENV LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    python3.9 \
-    python3.9-dev \
+    python3.10 \
+    python3.10-dev \
     python3-pip \
     git \
     wget \
@@ -34,9 +34,8 @@ RUN apt-get update && apt-get install -y \
     screen \
     && rm -rf /var/lib/apt/lists/*
 
-# Create symbolic links for python
-RUN ln -s /usr/bin/python3.9 /usr/bin/python
-RUN ln -s /usr/bin/python3.9 /usr/bin/python3
+# Create symbolic link for python
+RUN ln -s /usr/bin/python3.10 /usr/bin/python
 
 # Upgrade pip
 RUN python -m pip install --upgrade pip
@@ -44,15 +43,15 @@ RUN python -m pip install --upgrade pip
 # Set working directory
 WORKDIR /workspace
 
-# Copy requirements and install Python dependencies
-COPY project-training/runpod/requirements.txt .
-RUN pip install -r requirements.txt
-
-# Install PyTorch with CUDA support
-RUN pip install torch==2.1.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+# Install PyTorch with CUDA support FIRST
+RUN pip install torch==2.0.1 torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 
 # Install PyTorch Geometric dependencies
-RUN pip install torch-scatter torch-cluster -f https://data.pyg.org/whl/torch-2.1.1+cu118.html
+RUN pip install torch-scatter torch-cluster -f https://data.pyg.org/whl/torch-2.0.1+cu118.html
+
+# Copy requirements and install remaining Python dependencies
+COPY project-training/runpod/requirements.txt .
+RUN pip install -r requirements.txt
 
 # Install additional dependencies
 RUN pip install huggingface_hub
