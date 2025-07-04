@@ -4,6 +4,7 @@ __pycache__
 !requirements.txt
 
 *.pt
+!project-training/original-model-config/pretrain_model_weights.pt
 
 *.png
 
