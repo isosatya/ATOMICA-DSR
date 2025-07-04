@@ -390,7 +390,7 @@ def main(args):
             json.dump(vars(args), f, indent=4)
         if args.use_wandb:
             wandb.init(
-                entity="andressingh",
+                entity="andressingh-data-science-retreat",
                 dir=config.save_dir,
                 settings=wandb.Settings(start_method="fork"),
                 project="InteractNN-PDBBind",
