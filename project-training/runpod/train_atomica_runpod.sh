@@ -14,7 +14,7 @@ mkdir -p /workspace/project-training/model-outputs
 mkdir -p /workspace/project-training/data
 mkdir -p /workspace/project-training/original-model-config
 
-# Training parameters for RunPod
+# Training parameters for RunPod with 1000 epochs and overfitting monitoring
 python train.py \
   --train_set /workspace/project-training/data/train_items.pkl \
   --valid_set /workspace/project-training/data/val_items.pkl \
@@ -22,8 +22,9 @@ python train.py \
   --num_workers 4 \
   --gpus 0 \
   --lr 1e-3 \
-  --max_epoch 20 \
-  --patience 10 \
+  --max_epoch 1000 \
+  --patience 50 \
+  --warmup_epochs 10 \
   --atom_hidden_size 16 \
   --block_hidden_size 16 \
   --n_layers 1 \
@@ -36,9 +37,10 @@ python train.py \
   --pretrain_weights /workspace/project-training/original-model-config/pretrain_model_weights.pt \
   --pretrain_config /workspace/project-training/original-model-config/pretrain_model_config.json \
   --use_wandb \
-  --run_name "training_increased_radius_20_epochs" \
+  --run_name "training_1000_epochs_overfitting_monitoring" \
   --grad_clip 1 \
   --seed 42 \
-  --shuffle
+  --shuffle \
+  --save_topk 5
 
 echo "Training completed on RunPod!" 
