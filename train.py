@@ -393,7 +393,7 @@ def main(args):
                 entity="andressingh",
                 dir=config.save_dir,
                 settings=wandb.Settings(start_method="fork"),
-                project=f"InteractNN-{args.task}",
+                project=f"ATOMICA-{args.task}",
                 name=args.run_name,
                 config=vars(args),
             )
