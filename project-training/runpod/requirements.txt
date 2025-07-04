@@ -8,7 +8,7 @@ tensorboard==2.18.0
 e3nn==0.5.1
 
 # Scientific computing
-numpy==1.26.4
+numpy<2
 scipy==1.13.1
 
 # Chemistry and molecular modeling
