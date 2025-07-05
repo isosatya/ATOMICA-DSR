@@ -86,6 +86,7 @@ def create_model(args):
             model = AffinityPredictor.load_from_pretrained(args.pretrain_ckpt, **add_params)
         elif args.pretrain_config and args.pretrain_weights:
             print(f"Loading pretrain model from config {args.pretrain_config} and weights {args.pretrain_weights}")
+            add_params["partial_finetune"] = args.partial_finetune
             model = AffinityPredictor.load_from_config_and_weights(args.pretrain_config, args.pretrain_weights, **add_params)
         else:
             model = AffinityPredictor(
