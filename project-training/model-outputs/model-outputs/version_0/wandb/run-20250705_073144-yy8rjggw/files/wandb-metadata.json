@@ -1,0 +1,94 @@
+{
+  "os":  "Linux-6.5.0-45-generic-x86_64-with-glibc2.35",
+  "python":  "3.11.11",
+  "startedAt":  "2025-07-05T07:31:44.715105Z",
+  "args":  [
+    "--train_set",
+    "./project-training/data/train_items.pkl",
+    "--valid_set",
+    "./project-training/data/val_items.pkl",
+    "--task",
+    "PDBBind",
+    "--num_workers",
+    "2",
+    "--gpus",
+    "0",
+    "--lr",
+    "1e-4",
+    "--final_lr",
+    "5e-6",
+    "--max_epoch",
+    "200",
+    "--k_neighbors",
+    "8",
+    "--max_n_vertex_per_gpu",
+    "512",
+    "--max_n_vertex_per_item",
+    "512",
+    "--save_dir",
+    "./project-training/model-outputs",
+    "--pretrain_weights",
+    "./project-training/original-model-config/pretrain_model_weights.pt",
+    "--pretrain_config",
+    "./project-training/original-model-config/pretrain_model_config.json",
+    "--pred_hidden_size",
+    "64",
+    "--num_pred_layers",
+    "4",
+    "--grad_clip",
+    "1.0",
+    "--patience",
+    "30",
+    "--global_message_passing",
+    "--bottom_global_message_passing",
+    "--edge_size",
+    "32",
+    "--atom_hidden_size",
+    "32",
+    "--block_hidden_size",
+    "23",
+    "--n_layers",
+    "4",
+    "--shuffle",
+    "--run_name",
+    "new-run-saturday",
+    "--use_wandb"
+  ],
+  "program":  "/ATOMICA-DSR/train.py",
+  "codePath":  "train.py",
+  "git":  {
+    "remote":  "https://github.com/isosatya/ATOMICA-DSR.git",
+    "commit":  "a7b78bb730e4e48d78e19737134c1150fe7817c1"
+  },
+  "email":  "andressingh@gmail.com",
+  "root":  "./project-training/model-outputs/version_0",
+  "host":  "a53318a6c314",
+  "username":  "root",
+  "executable":  "/usr/bin/python",
+  "codePathLocal":  "train.py",
+  "cpu_count":  64,
+  "cpu_count_logical":  128,
+  "gpu":  "[]",
+  "gpu_count":  1,
+  "disk":  {
+    "/":  {
+      "total":  "32212254720",
+      "used":  "8876818432"
+    }
+  },
+  "memory":  {
+    "total":  "811322224640"
+  },
+  "cpu":  {
+    "count":  64,
+    "countLogical":  128
+  },
+  "gpu_nvidia":  [
+    {
+      "memoryTotal":  "48305799168",
+      "cudaCores":  18176,
+      "architecture":  "Ada"
+    }
+  ],
+  "cudaVersion":  "12.8"
+}
